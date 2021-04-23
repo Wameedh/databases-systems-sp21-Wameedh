@@ -1,3 +1,18 @@
+# Submission Notes:
+
+The following are improvement to M1 in M2V1
+* Expanded the project description.
+* Improved version of the ERD.
+* Added more Strong entities, now there are a total of 14 strong entities.
+* Added more weak entities.
+* Added a recursive relationship.
+* Updated Section IV with the new entities attributes and keys.
+
+When forward engineering the database using wholeSaleSystem.mwb file, in the last step when you are prumet with sql script  make sure to delete this line DEFAULT CHARACTER SET = DEFAULT. It is right after the create User query it should be on line 34. Make sure when you delete that line a semicolon is added at the end of the previous line (line 33) before to the deleted line. So it should be like this ENGINE = InnoDB;
+
+***Note: If you chose to check the option “Omit schema Qualifier in Object Names” the line of code that need to be deleted would be on line 28.***
+
+
 # Milestone 2: The Relational Model 
 
 The goal of this milestone is to create a complete technical document that will define in detail the logical 
