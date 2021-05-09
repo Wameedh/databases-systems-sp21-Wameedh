@@ -3,7 +3,7 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
+-- SET SQL_SAFE_UPDATES =0;
 -- -----------------------------------------------------
 -- Schema WholesaleDB
 -- -----------------------------------------------------
@@ -785,34 +785,34 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Trigger: When an insert on a user happen
+-- Triggers: When an insert on a user happen
 -- then this trigger would create an account, role and register user 
 -- -----------------------------------------------------
 DELIMITER $$
 DROP TRIGGER IF EXISTS createAccountAndRegUser $$
 CREATE TRIGGER createAccountAndRegUser AFTER INSERT ON User
 FOR EACH ROW
-  BEGIN
-    -- code here
-    DECLARE userid TINYINT;
-    DECLARE roleid TINYINT;
-    SET userid = (SELECT NEW.user_id);
-    INSERT INTO Account (user_id, date_created) VALUES (userid, SYSDATE());
-    INSERT INTO Role (role_id, description) VALUES (userid,"Customer has been added..");
-    INSERT INTO RegisterUser (user_id, role_id) VALUES (userid, userid);
-  END; $$
+	BEGIN
+	  -- code here
+	  DECLARE userid TINYINT;
+	  DECLARE roleid TINYINT;
+	  SET userid = (SELECT NEW.user_id);
+	  INSERT INTO Account (user_id, date_created) VALUES (userid, SYSDATE());
+	  INSERT INTO Role (role_id, description) VALUES (userid,"Customer has been added..");
+	  INSERT INTO RegisterUser (user_id, role_id) VALUES (userid, userid);
+	END; $$
 
 -- -----------------------------------------------------
--- Trigger: When a new RegisterUser get inserted in the DB
+-- Triggers: When a new RegisterUser get inserted in the DB
 -- a PaymentMethod associated with that register usr is created
 -- -----------------------------------------------------
 DROP TRIGGER IF EXISTS createPaymentMethod $$
 CREATE TRIGGER createPaymentMethod AFTER INSERT ON RegisterUser
 FOR EACH ROW
-  BEGIN
-    -- code here
-  INSERT INTO PaymentMethod (user_id) VALUES (New.register_user_id);
-  END; $$
+	BEGIN
+	  -- code here
+		INSERT INTO PaymentMethod (user_id) VALUES (New.register_user_id);
+	END; $$
 
 -- -----------------------------------------------------
 -- Procedure: takes register user ID and out the total of the cart that belongs to that user
@@ -820,24 +820,23 @@ FOR EACH ROW
 DROP PROCEDURE IF EXISTS getTotalOfCart $$
 CREATE PROCEDURE getTotalOfCart(IN regUser_id TINYINT, OUT totalPrice DECIMAL(9,2))
 BEGIN
-  -- get regUser_id return total price of items in cart belong to that user
+	-- get regUser_id return total price of items in cart belong to that user
     -- first get the product ids from cart
     -- then get the price of each item
     -- add the prices togather
-DECLARE n INT DEFAULT 0; 
-DECLARE i INT DEFAULT 0;
-DECLARE tempPrice DECIMAL(9,2) DEFAULT 0.0;
-DECLARE productId TINYINT;
-SET totalPrice = 0.0;
-SELECT COUNT(*) FROM ShoppingCart INTO n; -- get the size of ShoppingCart table
-SET i=0;
-WHILE i<=n DO 
-  SELECT product_id  FROM ShoppingCart WHERE reg_user_id=regUser_id AND Shopping_cart_id=i INTO productId;
-    SELECT price FROM Product WHERE product_id=productId INTO tempPrice;
-  SET totalPrice = totalPrice + tempPrice;
-  SET i = i + 1;
-END WHILE;
-   
+	DECLARE n INT DEFAULT 0; 
+	DECLARE i INT DEFAULT 0;
+	DECLARE tempPrice DECIMAL(9,2) DEFAULT 0.0;
+	DECLARE productId TINYINT;
+	SET totalPrice = 0.0;
+	SELECT COUNT(*) FROM ShoppingCart INTO n; -- get the size of ShoppingCart table
+	SET i=0;
+	WHILE i<=n DO 
+		SELECT product_id  FROM ShoppingCart WHERE reg_user_id=regUser_id AND Shopping_cart_id=i INTO productId;
+		SELECT price FROM Product WHERE product_id=productId INTO tempPrice;
+		SET totalPrice = totalPrice + tempPrice;
+		SET i = i + 1;
+	END WHILE;
 END $$
 -- -----------------------------------------------------
 -- Procedure: Gets two input the product id and the new price to be set for that product then it would update the new price
@@ -852,35 +851,36 @@ END $$
 -- -----------------------------------------------------
 -- Function: Takes an inventory ID and return the total prices of items that belong to that inventory
 -- -----------------------------------------------------
-DROP PROCEDURE IF EXISTS getInventoryTotal $$
+DROP FUNCTION IF EXISTS getInventoryTotal $$
 CREATE FUNCTION getInventoryTotal (inventoryId TINYINT)
 RETURNS DECIMAL(9,2)
 DETERMINISTIC
 -- input inventory id and the output is the total cost of that inventory
 BEGIN
-DECLARE tempQuantity INT DEFAULT 0; 
-DECLARE totalPrice DECIMAL(9,2) DEFAULT 0.0;
-DECLARE tempPrice DECIMAL(9,2) DEFAULT 0.0;
-DECLARE tempproduct_id TINYINT DEFAULT 0; 
-DECLARE n INT DEFAULT 0; 
-DECLARE i INT DEFAULT 0;
-SELECT COUNT(*) FROM Product INTO n; -- get the size of Product table 
-SET i=0;
-WHILE i<=n DO 
-  SELECT product_id FROM Product WHERE inventory_id=inventoryId INTO tempproduct_id;
-  SELECT price FROM Product WHERE inventory_id=inventoryId AND product_id=i INTO tempPrice;
-    SELECT quantity FROM Product WHERE inventory_id=inventoryId AND product_id=i INTO tempQuantity;
-    IF (tempproduct_id = i) THEN 
-    -- This if statement would ensure that one calculation per unique record
-    SET totalPrice = totalPrice + (tempPrice*tempQuantity);
-    END IF;
-  SET i = i + 1;
-END WHILE;
+	DECLARE tempQuantity INT DEFAULT 0; 
+	DECLARE totalPrice DECIMAL(9,2) DEFAULT 0.0;
+	DECLARE tempPrice DECIMAL(9,2) DEFAULT 0.0;
+	DECLARE tempproduct_id TINYINT DEFAULT 0; 
+	DECLARE n INT DEFAULT 0; 
+	DECLARE i INT DEFAULT 0;
+	DECLARE done INT DEFAULT FALSE;
+	DECLARE cursor_i CURSOR FOR SELECT product_id FROM Product WHERE inventory_id=inventoryId;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	OPEN cursor_i;
+	read_loop: LOOP
+		FETCH cursor_i INTO tempproduct_id;
+         IF done THEN
+			LEAVE read_loop;
+		END IF;
+        SELECT price FROM Product WHERE inventory_id=inventoryId AND product_id=tempproduct_id INTO tempPrice;
+        SELECT quantity FROM Product WHERE inventory_id=inventoryId AND product_id=tempproduct_id INTO tempQuantity;
+		SET totalPrice = totalPrice + (tempPrice*tempQuantity);
+	END LOOP;
+	CLOSE cursor_i;
     RETURN totalPrice;
 END $$
 
 DELIMITER ;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

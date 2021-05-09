@@ -50,6 +50,7 @@ INSERT INTO Addresses (number, street, city, state, country, zip_code) VALUES (1
 INSERT INTO Admin (creation_date, description, role_id) VALUES ( NOW(), "Admin 1 description 1", 1);
 INSERT INTO Admin (creation_date, description, role_id) VALUES ( NOW(), "Admin 2 description 2", 2);
 INSERT INTO Admin (creation_date, description, role_id) VALUES ( NOW(), "Admin 3 description 3", 3);
+
 -- BankAccount table inserts
 INSERT INTO BankAccount (account_number, routing_number, paymentMethod_id) VALUES ( 188725267, 123456789, 1);
 INSERT INTO BankAccount (account_number, routing_number, paymentMethod_id) VALUES ( 123456789, 175428962, 2);
@@ -64,7 +65,6 @@ INSERT INTO Category (name) VALUES ( "Category name 3");
 INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 1", 1);
 INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 2", 2);
 INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 3", 3);
-
 
 -- CDN table inserts
 INSERT INTO CDN (name) VALUES ( "CDN name 1");
@@ -151,7 +151,6 @@ INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (1, NOW(),
 INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (2, NOW(), 2);
 INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (3, NOW(), 2);
 
-SELECT getInventoryTotal(2);
 
 
 
