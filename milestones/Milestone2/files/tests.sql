@@ -6,16 +6,10 @@
 USE WholesaleDB; 
 
 -- Testing User table
--- 1. Error in User DELETE
--- DELETE FROM User WHERE first_name = 'Alex';
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
--- 2. Error in User UPDATE
--- UPDATE User SET user_id = 4 WHERE first_name = 'Wameedh';
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+DELETE FROM User WHERE first_name = 'Alex';
+UPDATE User SET user_id = 4 WHERE first_name = 'Wameedh';
 
--- Testing User table
+-- Testing Account table
 DELETE FROM Account WHERE user_id = 1;
 UPDATE Account SET user_id = 4 WHERE user_id = 2;
 
@@ -28,11 +22,7 @@ DELETE FROM Actions WHERE action_id = 1;
 UPDATE Actions SET description = "new description" WHERE action_id = 2;
 
 -- Testing Addresses table
-
--- 3. Error in Addresses DELETE
--- DELETE FROM Addresses WHERE number = 123;
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+DELETE FROM Addresses WHERE number = 123;
 UPDATE Addresses SET zip_code = 12345 WHERE Address_id = 3;
 
 -- Testing Admin table
@@ -61,48 +51,29 @@ UPDATE Clothes SET description = "new description" WHERE category_id = 3;
 
 -- Testing Color table
 DELETE FROM Color WHERE color_id = 1;
--- 4. Error in Color UPDATE
--- UPDATE Color SET hex_value = "ffff6d" WHERE color_name = "Red";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+UPDATE Color SET hex_value = "ffff6d" WHERE color_name = "Red";
 
 -- Testing Credentials table
 DELETE FROM Credentials WHERE account_id = 1;
 UPDATE Credentials SET password = "new password" WHERE user_email = "alex@gmail.com";
 
 -- Testing CreditCard table
-
--- 5. Error in CreditCard DELETE
--- DELETE FROM CreditCard WHERE last_name = "Mohammed Ali";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
--- 6. Error in CreditCard UPDATE
--- UPDATE CreditCard SET cvv = 476 WHERE first_name = "Sara";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+DELETE FROM CreditCard WHERE last_name = "Mohammed Ali";
+UPDATE CreditCard SET cvv = 476 WHERE first_name = "Sara";
 
 -- Testing Customer table
-
 DELETE FROM Customer WHERE customer_id = 1;
-UPDATE Customer SET role_id = 7 WHERE role_id = 2;
+-- 1. Error in Customer UPDATE
+-- UPDATE Customer SET role_id = 7 WHERE role_id = 2;
+-- Error Code: 1452. Cannot add or update a child row: a foreign key constraint fails (`wholesaledb`.`customer`, CONSTRAINT `FK_ROLE_CUSTOMER` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE)
+
 
 -- Testing Devices table
-
--- 7. Error in Devices DELETE
--- DELETE FROM Devices WHERE name = "Iphone X";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
--- 8. Error in Devices UPDATE
--- UPDATE Devices SET name = "Iphone XS" WHERE type = "Apple";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+DELETE FROM Devices WHERE name = "Iphone X";
+UPDATE Devices SET name = "Iphone XS" WHERE type = "Apple";
 
 -- Testing Electronics table
-
--- 9. Error in Electronics DELETE
--- DELETE FROM Electronics WHERE model_year = 2020;
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+DELETE FROM Electronics WHERE model_year = 2020;
 UPDATE Electronics SET brand = "Sony" WHERE category_id = 1;
 
 -- Testing Food table
@@ -115,10 +86,7 @@ UPDATE HealthProducts SET type = "new type" WHERE category_id = 2;
 
 -- Testing Images table
 DELETE FROM Images WHERE product_id = 1;
--- 10. Error in Images UPDATE
--- UPDATE Images SET product_id = 3 WHERE name = "iphone X";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+UPDATE Images SET product_id = 3 WHERE name = "iphone X";
 
 -- Testing Inventory table
 DELETE FROM Inventory WHERE rule_id = 1;
@@ -152,17 +120,11 @@ DELETE FROM Permissions WHERE rule_id = 1;
 UPDATE Permissions SET rule_id = 2 WHERE account_id=3;
 
 -- Testing Product table
--- 11. Error in Product DELETE
--- DELETE FROM Product WHERE name = "tv";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+DELETE FROM Product WHERE name = "tv";
 UPDATE Product SET price = 700.00 WHERE inventory_id=2;
 
--- Testing Profile table
 -- 12. Error in Profile DELETE
--- DELETE FROM Profile WHERE user_name = "wameedh";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
+DELETE FROM Profile WHERE user_name = "wameedh";
 UPDATE Profile SET user_name = "Omid" WHERE account_id=3;
 
 -- Testing RegisterUser table
@@ -180,7 +142,7 @@ UPDATE Rule SET rule_id = 4 WHERE rule_id=2;
 
 -- Testing RuleAction table
 DELETE FROM RuleAction WHERE rule_id = 1;
--- 13. Error in RuleAction UPDATE
+-- 2. Error in RuleAction UPDATE
 -- UPDATE RuleAction SET action_id = 3 WHERE rul_id=2;
 -- Error Code: 1054. Unknown column 'rul_id' in 'where clause'
 
@@ -189,12 +151,8 @@ DELETE FROM ShoppingCart WHERE reg_user_id = 1;
 UPDATE ShoppingCart SET date_added = NOW() WHERE reg_user_id=2;
 
 -- Testing Size table
-
--- 14. Error in Size DELETE
--- DELETE FROM Size WHERE size_name = "small";
--- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.
--- To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
--- 15. Error in Size UPDATE
+DELETE FROM Size WHERE size_name = "small";
+-- 3. Error in Size UPDATE
 -- UPDATE Size SET size_value = "New size value" WHERE size_id=2;
 -- Error Code: 1366. Incorrect integer value: 'New size value' for column 'size_value' at row 1
 
@@ -210,10 +168,10 @@ UPDATE UserDevices SET device = 2 WHERE user=3;
 -- -------------------------------------
 -- Testing  2 procedures & 1 function
 -- -------------------------------------
-CALL update_product_price(1, 2.99);
+CALL update_product_price(2, 2.99);
 CALL getTotalOfCart(2, @totalPrice);
 SELECT @totalPrice as totalOfCart;
 
-SELECT getInventoryTotal(1);
+SELECT getInventoryTotal(2);
 
 

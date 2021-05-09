@@ -10,6 +10,7 @@ INSERT INTO User (user_email, first_name, last_name) VALUES ("wameedh.wf@gmail.c
 INSERT INTO User (user_email, first_name, last_name) VALUES ("Sara@gmail.com", "Sara", "Smith");
 INSERT INTO User (user_email, first_name, last_name) VALUES ("alex@gmail.com", "Alex", "Williams");
 
+
 -- --------------------------------------------
 -- the inserts are commented out in the following tables: Account, RegisterUser, Role and PaymentMethod
 --  because I have triggers would  insert data in them when an insert occur on USER.
@@ -53,14 +54,18 @@ INSERT INTO Admin (creation_date, description, role_id) VALUES ( NOW(), "Admin 3
 INSERT INTO BankAccount (account_number, routing_number, paymentMethod_id) VALUES ( 188725267, 123456789, 1);
 INSERT INTO BankAccount (account_number, routing_number, paymentMethod_id) VALUES ( 123456789, 175428962, 2);
 INSERT INTO BankAccount (account_number, routing_number, paymentMethod_id) VALUES ( 138688421, 124000643, 3);
--- BeautyProducts table inserts
-INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 1", 1);
-INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 2", 2);
-INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 3", 3);
+
 -- Category table inserts
 INSERT INTO Category (name) VALUES ( "Category name 1");
 INSERT INTO Category (name) VALUES ( "Category name 2");
 INSERT INTO Category (name) VALUES ( "Category name 3");
+
+-- BeautyProducts table inserts
+INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 1", 1);
+INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 2", 2);
+INSERT INTO BeautyProducts (type, category_id) VALUES ( "type 3", 3);
+
+
 -- CDN table inserts
 INSERT INTO CDN (name) VALUES ( "CDN name 1");
 INSERT INTO CDN (name) VALUES ( "CDN name 2");
@@ -78,7 +83,7 @@ INSERT INTO Color (hex_value, color_name) VALUES ( "ff0101", "Red");
 -- Credentials table inserts
 INSERT INTO Credentials (account_id, password, user_email) VALUES (1, "123456", "wameedh.wf@gmail.com");
 INSERT INTO Credentials (account_id, password, user_email) VALUES (2, "123456", "sara@gmail.com");
-INSERT INTO Credentials (account_id, password, user_email) VALUES (3, "123456", "alex.wf@gmail.com");
+INSERT INTO Credentials (account_id, password, user_email) VALUES (3, "123456", "alex@gmail.com");
 -- CreditCard table inserts
 INSERT INTO CreditCard (card_number, cvv, expiration_date, first_name, last_name, paymentMethod_id) VALUES ("123456789012", 543, '2025-7-04', "Wameedh", "Mohammed Ali", 1);
 INSERT INTO CreditCard (card_number, cvv, expiration_date, first_name, last_name, paymentMethod_id) VALUES ("234864268931", 876, '2026-12-05', "Sarar", "Smith", 2);
@@ -105,40 +110,48 @@ INSERT INTO Food (expiration_date, food_type, category_id) VALUES ( '2021-5-01',
 INSERT INTO HealthProducts (expiration_date, type, category_id) VALUES ( '2021-8-01', "type 1", 1);
 INSERT INTO HealthProducts (expiration_date, type, category_id) VALUES ( '2023-3-23', "type 2", 2);
 INSERT INTO HealthProducts (expiration_date, type, category_id) VALUES ( '2026-1-22', "type 3", 3);
--- Images table inserts
-INSERT INTO Images (name, hight, width, product_id) VALUES ( "LG TV", 480, 480, 1);
-INSERT INTO Images (name, hight, width, product_id) VALUES ( "iphone X", 480, 480, 2);
-INSERT INTO Images (name, hight, width, product_id) VALUES ( "Orange", 480, 480, 3);
--- Inventory table inserts
-INSERT INTO Inventory (rule_id, description) VALUES ( 1, "Inventory 1 description 1");
-INSERT INTO Inventory (rule_id, description) VALUES ( 2, "Inventory 2 description 2");
-INSERT INTO Inventory (rule_id, description) VALUES ( 3, "Inventory 3 description 3");
--- Membership table inserts
-INSERT INTO Membership (rewards_points, creation_date, renewal_date, account_id) VALUES ( 1, NOW(), (NOW() + INTERVAL 1 YEAR), 1);
-INSERT INTO Membership (rewards_points, creation_date, renewal_date, account_id) VALUES ( 100, NOW(), (NOW() + INTERVAL 1 YEAR), 2);
-INSERT INTO Membership (rewards_points, creation_date, renewal_date, account_id) VALUES ( 23, NOW(), (NOW() + INTERVAL 1 YEAR), 3);
-
--- Product table inserts
-INSERT INTO Product (price, wight, name, description, quantity, color_id, size_id, inventory_id, category_id) VALUES ( 3.99, 0.1,"apple", "Product 1 description 1", 500, 1,1,1,1);
-INSERT INTO Product (price, wight, name, description, quantity, color_id, size_id, inventory_id, category_id) VALUES ( 10.99, 1.0,"cup", "Product 1 description 1", 500, 2,2,2,2);
-INSERT INTO Product (price, wight, name, description, quantity, color_id, size_id, inventory_id, category_id) VALUES ( 100.00, 20.0,"tv", "Product 1 description 1", 50, 2,3,3,3);
--- Profile table inserts
-INSERT INTO Profile (user_name, date_of_birth, avatar_link, account_id) VALUES ("wameedh",'1989-12-05',"https://www.mysite.com/avatar/205e4", 1);
-INSERT INTO Profile (user_name, date_of_birth, avatar_link, account_id) VALUES ("Sarar",'1990-03-26',"https://www.mysite.com/avatar/205e4ft32", 2);
-INSERT INTO Profile (user_name, date_of_birth, avatar_link, account_id) VALUES ("Alex",'1995-07-15',"https://www.mysite.com/avatar/20523fe41", 3);
 
 -- Rule table inserts
 INSERT INTO Rule (rule_id) VALUES ( 1);
 INSERT INTO Rule (rule_id) VALUES ( 2);
 INSERT INTO Rule (rule_id) VALUES ( 3);
--- ShoppingCart table inserts
-INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (1, NOW(), 1);
-INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (2, NOW(), 2);
-INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (3, NOW(), 2);
+
+-- Inventory table inserts
+INSERT INTO Inventory (rule_id, description) VALUES ( 1, "Inventory 1 description 1");
+INSERT INTO Inventory (rule_id, description) VALUES ( 2, "Inventory 2 description 2");
+INSERT INTO Inventory (rule_id, description) VALUES ( 3, "Inventory 3 description 3");
+
 -- Size table inserts
 INSERT INTO Size (size_name, size_desc, size_value) VALUES ("Small", "American size", 10);
 INSERT INTO Size (size_name, size_desc, size_value) VALUES ("Medium", "American size", 32);
 INSERT INTO Size (size_name, size_desc, size_value) VALUES ("Larg", "American size", 36);
+
+-- Product table inserts
+INSERT INTO Product (price, wight, name, description, quantity, color_id, size_id, inventory_id, category_id) VALUES ( 3.99, 0.1,"apple", "Product 1 description 1", 500, 1,1,1,1);
+INSERT INTO Product (price, wight, name, description, quantity, color_id, size_id, inventory_id, category_id) VALUES ( 10.99, 1.0,"cup", "Product 1 description 1", 500, 2,2,2,2);
+INSERT INTO Product (price, wight, name, description, quantity, color_id, size_id, inventory_id, category_id) VALUES ( 100.00, 20.0,"tv", "Product 1 description 1", 50, 2,3,2,3);
+
+-- Images table inserts
+INSERT INTO Images (name, hight, width, product_id) VALUES ( "LG TV", 480, 480, 1);
+INSERT INTO Images (name, hight, width, product_id) VALUES ( "iphone X", 480, 480, 2);
+INSERT INTO Images (name, hight, width, product_id) VALUES ( "Orange", 480, 480, 3);
+
+-- Membership table inserts
+INSERT INTO Membership (rewards_points, creation_date, renewal_date, account_id) VALUES ( 1, NOW(), (NOW() + INTERVAL 1 YEAR), 1);
+INSERT INTO Membership (rewards_points, creation_date, renewal_date, account_id) VALUES ( 100, NOW(), (NOW() + INTERVAL 1 YEAR), 2);
+INSERT INTO Membership (rewards_points, creation_date, renewal_date, account_id) VALUES ( 23, NOW(), (NOW() + INTERVAL 1 YEAR), 3);
+
+-- Profile table inserts
+INSERT INTO Profile (user_name, date_of_birth, avatar_link, account_id) VALUES ("wameedh",'1989-12-05',"https://www.mysite.com/avatar/205e4", 1);
+INSERT INTO Profile (user_name, date_of_birth, avatar_link, account_id) VALUES ("Sarar",'1990-03-26',"https://www.mysite.com/avatar/205e4ft32", 2);
+INSERT INTO Profile (user_name, date_of_birth, avatar_link, account_id) VALUES ("Alex",'1995-07-15',"https://www.mysite.com/avatar/20523fe41", 3);
+
+-- ShoppingCart table inserts
+INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (1, NOW(), 1);
+INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (2, NOW(), 2);
+INSERT INTO ShoppingCart (product_id, date_added, reg_user_id) VALUES (3, NOW(), 2);
+
+SELECT getInventoryTotal(2);
 
 
 
