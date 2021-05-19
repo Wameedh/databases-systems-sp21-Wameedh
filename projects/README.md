@@ -24,5 +24,7 @@ reading WholesaleDB.sql then I appended the two readings into one variable calle
 
 Note that get_queries_from() takes file and delimiter as inputs and returns queries which is what it reads from the file.
 
+Another challenge was that the Update query was not being accepted by connection.cursor().execute(query) function. The issue was in the formatting of the query since I was trying to add values taken from the user as inputs. I was able to find a solution to this problem by the help of the professor.
+
 
 
